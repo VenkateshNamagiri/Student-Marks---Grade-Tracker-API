@@ -1,0 +1,59 @@
+1.Where exactly in your code does the grade get calculated? Paste that function here.
+
+The grade is calculated by the  function calculate_grade(). 
+Whenever a student's percentage is calculated this function is called to give the 
+grades based on the percentage.
+
+    def calculate_grade(percentage):
+    if percentage >= 90:
+        return "A"
+    elif percentage >= 75:
+        return "B"
+    elif percentage >= 60:
+        return "C"
+    elif percentage >= 45:
+        return "D"
+    else:
+        return "F"
+
+2. What SQL query gives you the class average in /summary?
+
+SELECT
+    students.id,
+    students.name,
+    AVG((marks.score / marks.max_score) * 100) AS average_percentage
+FROM students JOIN marks
+ON students.id = marks.student_id
+GROUP BY students.id, students.name
+ORDER BY average_percentage DESC;
+
+3.What happens in your API if someone sends a score of -10 or a score of 150 when 
+the maximum score is 100?
+
+If the score is negative
+
+{
+    "subject": "Science",
+    "score": -10,
+    "max_score": 100
+}
+
+The API returns:
+
+{
+    "message": "Score cannot be negative"
+}
+
+If the score is greater than the maximum score:
+
+{
+    "subject": "Science",
+    "score": 150,
+    "max_score": 100
+}
+
+The API returns:
+
+{
+    "message": "Score cannot exceed Max Score"
+}
